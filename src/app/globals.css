@@ -61,6 +61,22 @@
     /* clip, not hidden — hidden would turn body into a scroll container and break sticky/pinned sections. */
     overflow-x: clip;
   }
+  /* No typing caret or I-beam on ordinary text (e.g. with browser caret browsing on) —
+     only real form fields get them back. */
+  body {
+    caret-color: transparent;
+    cursor: default;
+  }
+  input,
+  textarea,
+  select,
+  [contenteditable="true"] {
+    caret-color: auto;
+  }
+  input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
+  textarea {
+    cursor: text;
+  }
   ::selection {
     background: var(--color-blush);
     color: var(--color-ink);
