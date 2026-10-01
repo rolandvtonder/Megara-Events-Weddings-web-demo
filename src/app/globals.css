@@ -73,6 +73,15 @@
   [contenteditable="true"] {
     caret-color: auto;
   }
+  /* Big display type is decorative: a click there shouldn't drop a caret or start a selection. */
+  h1,
+  h2,
+  h3,
+  #hero,
+  [data-caption] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
   input:not([type="checkbox"], [type="radio"], [type="submit"], [type="button"]),
   textarea {
     cursor: text;
