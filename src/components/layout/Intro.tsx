@@ -5,14 +5,13 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Monogram } from "@/components/ui/BrandMark";
 import { SilkCanvas } from "@/components/ui/SilkCanvas";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
+import { INTRO_KEY } from "@/lib/intro";
 import { prefersReducedMotion } from "@/lib/utils";
 import { useUI } from "@/store/ui";
 
 // Teal → coral → blush → gold: the brand palette as a sheet of silk.
 const PALETTE: [string, string, string, string] = ["#1E3A3C", "#E45E4C", "#F2A48F", "#E8BB5C"];
 let played = false;
-/** Set once the intro has played, so it only runs once per browser session. */
-export const INTRO_KEY = "megara-intro";
 const seenThisSession = () => {
   try {
     return sessionStorage.getItem(INTRO_KEY) === "1";
