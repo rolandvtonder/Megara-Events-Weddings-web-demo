@@ -11,6 +11,22 @@ import { useUI } from "@/store/ui";
 // Teal → coral → blush → gold: the brand palette as a sheet of silk.
 const PALETTE: [string, string, string, string] = ["#1E3A3C", "#E45E4C", "#F2A48F", "#E8BB5C"];
 let played = false;
+/** Set once the intro has played, so it only runs once per browser session. */
+export const INTRO_KEY = "megara-intro";
+const seenThisSession = () => {
+  try {
+    return sessionStorage.getItem(INTRO_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+const remember = () => {
+  try {
+    sessionStorage.setItem(INTRO_KEY, "1");
+  } catch {
+    /* private mode / storage blocked — the intro will simply play again */
+  }
+};
 
 const wait = (ms: number) => new Promise<void>((r) => window.setTimeout(r, ms));
 const pageLoaded = () =>
@@ -42,7 +58,15 @@ export function Intro() {
   useGSAP(
     () => {
       if (!show || !root.current) return;
+      // Already seen this session: the inline script in <head> hid it before first paint.
+      if (seenThisSession()) {
+        played = true;
+        setIntroDone();
+        setShow(false);
+        return;
+      }
       if (prefersReducedMotion()) {
+        remember();
         played = true;
         setIntroDone();
         gsap.to(root.current, { autoAlpha: 0, duration: 0.4, onComplete: () => setShow(false) });
@@ -61,26 +85,29 @@ export function Intro() {
         if (counter.current) counter.current.textContent = String(Math.round(count.v)).padStart(3, "0");
         if (bar.current) bar.current.style.transform = `scaleX(${count.v / 100})`;
       };
-      gsap.to(count, { v: 86, duration: 2.2, ease: "power2.inOut", onUpdate: paint });
+      gsap.to(count, { v: 86, duration: 1.1, ease: "power2.inOut", onUpdate: paint });
 
       let cancelled = false;
-      const ready = Promise.all([document.fonts?.ready ?? Promise.resolve(), pageLoaded(), wait(2400)]);
-      Promise.race([ready, wait(5200)]).then(() => {
+      // Wait for fonts and the hero photo, but never hold visitors longer than ~2.6s.
+      const ready = Promise.all([document.fonts?.ready ?? Promise.resolve(), pageLoaded(), wait(1200)]);
+      Promise.race([ready, wait(2600)]).then(() => {
         if (cancelled) return;
         gsap
           .timeline({
             onComplete: () => {
               played = true;
+              remember();
               setShow(false);
             },
           })
-          .to(count, { v: 100, duration: 0.55, ease: "power2.out", onUpdate: paint })
-          .to("[data-intro-ui]", { autoAlpha: 0, y: -28, duration: 0.65, ease: "power2.in", stagger: 0.05 }, "+=0.1")
+          .to(count, { v: 100, duration: 0.35, ease: "power2.out", onUpdate: paint })
+          .to("[data-intro-ui]", { autoAlpha: 0, y: -28, duration: 0.45, ease: "power2.in", stagger: 0.04 })
           // The silk canvas is opaque here, so dropping the gradient underneath is invisible — and the tear then opens onto the hero.
           .set("[data-intro-fallback]", { autoAlpha: noGL.current ? 1 : 0 })
           // WebGL tears the silk open; without it, a CSS mask opens the same hole.
-          .to(noGL.current ? root.current : reveal, noGL.current ? { "--hole": "150%", duration: 1.7, ease: "power2.inOut" } : { current: 1, duration: 1.9, ease: "power2.inOut" }, "-=0.25")
-          .call(() => setIntroDone(), [], "-=1.35");
+          .to(noGL.current ? root.current : reveal, noGL.current ? { "--hole": "150%", duration: 1.2, ease: "power2.inOut" } : { current: 1, duration: 1.3, ease: "power2.inOut" }, "-=0.25")
+          // Hand control (and scrolling) back as soon as the tear starts opening.
+          .call(() => setIntroDone(), [], "-=1.2");
       });
       return () => {
         cancelled = true;
@@ -94,6 +121,7 @@ export function Intro() {
   return (
     <div
       ref={root}
+      data-intro-root
       className="fixed inset-0 z-[200] text-paper"
       aria-hidden
       style={

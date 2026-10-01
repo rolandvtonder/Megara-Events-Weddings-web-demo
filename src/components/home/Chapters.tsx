@@ -115,7 +115,7 @@ export function Chapters() {
         {CHAPTERS.map((c, i) => (
           <div key={c.title} data-ch-bg className="absolute inset-0" style={i === 0 ? undefined : HIDE}>
             <div className="absolute inset-0 will-change-transform">
-              <Img id={c.image} alt={c.alt} sizes="100vw" eager={i < 2} position="55% 50%" />
+              <Img id={c.image} alt={c.alt} sizes="100vw" eager={i === 0} position="55% 50%" />
             </div>
           </div>
         ))}

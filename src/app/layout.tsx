@@ -10,7 +10,7 @@ import { BoardDrawer } from "@/components/layout/BoardDrawer";
 import { Cursor } from "@/components/layout/Cursor";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { Intro } from "@/components/layout/Intro";
+import { Intro, INTRO_KEY } from "@/components/layout/Intro";
 import { Lightbox } from "@/components/layout/Lightbox";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { SearchOverlay } from "@/components/layout/SearchOverlay";
@@ -39,7 +39,11 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en-ZA" className={`${cormorant.variable} ${bodoni.variable} ${jost.variable} ${alexBrush.variable}`}>
+    <html lang="en-ZA" className={`${cormorant.variable} ${bodoni.variable} ${jost.variable} ${alexBrush.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Runs before first paint: if the intro already played this session, hide it so there's no flash. */}
+        <script dangerouslySetInnerHTML={{ __html: `try{if(sessionStorage.getItem("${INTRO_KEY}")){var s=document.createElement("style");s.textContent="[data-intro-root]{display:none!important}";document.head.appendChild(s)}}catch(e){}` }} />
+      </head>
       <body className="flex min-h-screen flex-col">
         <a href="#main" className="micro fixed left-4 top-4 z-[300] -translate-y-24 rounded-full bg-ink px-4 py-3 text-paper transition-transform focus:translate-y-0">
           Skip to content

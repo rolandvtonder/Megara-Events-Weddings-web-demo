@@ -138,7 +138,7 @@ export function PackagePicker() {
             ))}
             {WEDDING_PACKAGES.map((p, i) => (
               <div key={p.id} data-frame className="absolute inset-[6%] overflow-hidden rounded-t-full rounded-b-[10px] shadow-[0_40px_70px_-30px_rgba(43,35,33,0.5)]" style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }}>
-                <Img id={p.image} alt={`${p.title} — a Megara wedding`} sizes="(min-width:1024px) 34vw, 90vw" eager />
+                <Img id={p.image} alt={`${p.title} — a Megara wedding`} sizes="(min-width:1024px) 34vw, 90vw" eager={i === 0} />
               </div>
             ))}
             <button type="button" aria-label="Previous package" onClick={() => go(active - 1)} className="absolute left-0 top-1/2 z-10 grid size-12 -translate-y-1/2 place-items-center rounded-full bg-paper/85 shadow-lg backdrop-blur transition-transform hover:scale-110">
