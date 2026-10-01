@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://rolandvtonder.github.io/Megara-Events-Weddings-web-demo/sitemap.xml
