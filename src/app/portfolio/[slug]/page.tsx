@@ -1,3 +1,4 @@
+import { imageSrc } from "@/lib/images";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -20,7 +21,7 @@ export async function generateMetadata(props: PageProps<"/portfolio/[slug]">): P
   const { slug } = await props.params;
   const g = galleryBySlug(slug);
   if (!g) return { title: "Not found" };
-  return { title: `${g.title} — ${g.meta}`, description: g.intro, openGraph: { images: [`/images/${g.cover}.webp`] } };
+  return { title: `${g.title} — ${g.meta}`, description: g.intro, openGraph: { images: [imageSrc(g.cover)] } };
 }
 
 export default async function GalleryPage(props: PageProps<"/portfolio/[slug]">) {

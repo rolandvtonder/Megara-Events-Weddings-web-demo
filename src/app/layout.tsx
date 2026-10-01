@@ -1,3 +1,4 @@
+import { imageSrc } from "@/lib/images";
 import type { Metadata, Viewport } from "next";
 import { Alex_Brush, Bodoni_Moda, Cormorant_Garamond, Jost } from "next/font/google";
 import "lenis/dist/lenis.css";
@@ -28,7 +29,7 @@ export const metadata: Metadata = {
   description: BRAND.description,
   applicationName: BRAND.fullName,
   keywords: ["wedding planner Cape Town", "luxury wedding planner", "Winelands wedding", "destination wedding planner South Africa", "event planner Cape Town", "brand activations", "corporate events Cape Town"],
-  openGraph: { type: "website", siteName: BRAND.fullName, title: `${BRAND.fullName} — ${BRAND.tagline}`, description: BRAND.description, images: ["/images/yasmeen-rafiq-09.webp"] },
+  openGraph: { type: "website", siteName: BRAND.fullName, title: `${BRAND.fullName} — ${BRAND.tagline}`, description: BRAND.description, images: [imageSrc("yasmeen-rafiq-09")] },
   twitter: { card: "summary_large_image", title: `${BRAND.fullName} — ${BRAND.tagline}`, description: BRAND.description },
 };
 

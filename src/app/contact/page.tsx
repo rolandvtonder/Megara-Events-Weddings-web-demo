@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import { CONTACT, SOCIALS } from "@/data/site";
-import { EnquiryForm } from "@/components/forms/EnquiryForm";
+import { EnquiryFormFromURL } from "@/components/forms/EnquiryFormFromURL";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Img } from "@/components/ui/Img";
 import { PageFX } from "@/components/ui/ScrollFX";
@@ -13,12 +13,7 @@ export const metadata: Metadata = {
   description: "Book a complimentary, obligation-free consultation with Megara Events & Weddings. Email enquiries@megara.co.za or call 083 995 4589.",
 };
 
-const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
-
-export default async function ContactPage(props: PageProps<"/contact">) {
-  const sp = await props.searchParams;
-  const service = one(sp.service);
-
+export default function ContactPage() {
   const details = [
     { icon: Mail, label: "Email", value: CONTACT.enquiries, href: `mailto:${CONTACT.enquiries}` },
     { icon: Mail, label: "Email Meg", value: CONTACT.meg, href: `mailto:${CONTACT.meg}` },
@@ -80,7 +75,7 @@ export default async function ContactPage(props: PageProps<"/contact">) {
           </div>
 
           <div className="lg:col-span-7">
-            <EnquiryForm key={service ?? "none"} initialService={service} />
+            <EnquiryFormFromURL />
           </div>
         </div>
       </section>

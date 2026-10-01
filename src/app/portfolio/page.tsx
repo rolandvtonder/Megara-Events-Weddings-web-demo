@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PortfolioGrid } from "@/components/portfolio/PortfolioGrid";
+import { PortfolioGridFromURL } from "@/components/portfolio/PortfolioGridFromURL";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { PageFX } from "@/components/ui/ScrollFX";
 import { CTABand } from "@/components/ui/Sections";
@@ -10,12 +10,7 @@ export const metadata: Metadata = {
   description: "Weddings in the Winelands, milestone birthdays and brand activations for Woolworths, UCOOK and Amazon — explore Megara's portfolio.",
 };
 
-const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
-
-export default async function PortfolioPage(props: PageProps<"/portfolio">) {
-  const sp = await props.searchParams;
-  const category = one(sp.category);
-
+export default function PortfolioPage() {
   return (
     <>
       <section data-bg="#FBF7F5" className="pb-10 pt-[calc(var(--ann-h)+var(--nav-h)+2.5rem)] md:pt-[calc(var(--ann-h)+var(--nav-h)+4.5rem)]">
@@ -35,8 +30,7 @@ export default async function PortfolioPage(props: PageProps<"/portfolio">) {
         </div>
       </section>
 
-      {/* Remount when the URL changes via navigation (e.g. from the mega menu) so the filter re-initialises. */}
-      <PortfolioGrid key={category ?? "all"} initial={category} />
+      <PortfolioGridFromURL />
 
       <div className="h-24 md:h-40" />
       <CTABand title="Like what you see?" accent="Let's chat!" body="Contact us for a complimentary consultation to discuss your vision and the package that best suits your requirements." image="feature-floral-table" />

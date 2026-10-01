@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import { WEDDING_PACKAGES } from "@/data/services";
 import { Img } from "@/components/ui/Img";
 import { gsap, useGSAP } from "@/lib/gsap";
+import { imageSrc } from "@/lib/images";
 import { cn, pad, prefersReducedMotion } from "@/lib/utils";
 import { useBoard } from "@/store/enquiry";
 import { useUI } from "@/store/ui";
@@ -79,7 +80,7 @@ export function PackagePicker() {
 
   const addPackage = () => {
     add({ id: pkg.id, kind: "service", title: pkg.title, meta: `${pkg.kicker} · ${guests} guests`, image: pkg.image, href: pkg.href });
-    toast({ title: "Added to your enquiry board", body: `${pkg.title} · ${guests} guests`, image: `/images/${pkg.image}.webp`, tone: "success" });
+    toast({ title: "Added to your enquiry board", body: `${pkg.title} · ${guests} guests`, image: imageSrc(pkg.image), tone: "success" });
     if (pill.current) burst(pill.current);
   };
 

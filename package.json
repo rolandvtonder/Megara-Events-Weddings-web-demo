@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "images": "node scripts/optimise-images.mjs"
+    "images": "node scripts/optimise-images.mjs",
+    "build:pages": "node scripts/build-pages.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -1,3 +1,4 @@
+import { imageSrc } from "@/lib/images";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,7 +20,7 @@ export async function generateMetadata(props: PageProps<"/blog/[slug]">): Promis
   const { slug } = await props.params;
   const p = postBySlug(slug);
   if (!p) return { title: "Not found" };
-  return { title: p.title, description: p.excerpt, openGraph: { type: "article", images: [`/images/${p.image}.webp`] } };
+  return { title: p.title, description: p.excerpt, openGraph: { type: "article", images: [imageSrc(p.image)] } };
 }
 
 export default async function PostPage(props: PageProps<"/blog/[slug]">) {
@@ -36,7 +37,7 @@ export default async function PostPage(props: PageProps<"/blog/[slug]">) {
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
-    image: `/images/${post.image}.webp`,
+    image: imageSrc(post.image),
     author: { "@type": "Organization", name: BRAND.fullName },
   };
 

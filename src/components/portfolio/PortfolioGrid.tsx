@@ -4,6 +4,7 @@ import { useLayoutEffect, useMemo, useRef, useState } from "react";
 import { CATEGORY_LABEL, GALLERIES, type PortfolioCategory } from "@/data/portfolio";
 import { PortfolioCard } from "@/components/portfolio/PortfolioCard";
 import { Flip, gsap } from "@/lib/gsap";
+import { BASE_PATH } from "@/lib/images";
 import { cn, prefersReducedMotion } from "@/lib/utils";
 
 type Filter = "all" | PortfolioCategory;
@@ -19,7 +20,7 @@ export function PortfolioGrid({ initial }: { initial?: string }) {
   const change = (f: Filter) => {
     if (grid.current && !prefersReducedMotion()) flipState.current = Flip.getState(grid.current.querySelectorAll("[data-flip-id]"));
     setFilter(f);
-    window.history.replaceState(null, "", f === "all" ? "/portfolio" : `/portfolio?category=${f}`);
+    window.history.replaceState(null, "", `${BASE_PATH}/portfolio/${f === "all" ? "" : `?category=${f}`}`);
   };
 
   useLayoutEffect(() => {
